@@ -1,8 +1,8 @@
 # QA Engineer Assignment
 
-Part 1: Hands-On Technical Inspection & Automation 
+## Part 1: Hands-On Technical Inspection & Automation 
 
-Scenario A: The Offline Sync & Data Collision (API & Mobile) 
+### Scenario A: The Offline Sync & Data Collision (API & Mobile) 
 Context: Two field workers, Ankit and Pooja, are surveying the same village completely offline. 
  
 1. At 10:00 AM, Ankit registers "Govt Primary School" on his device, fills a survey, and his 
@@ -15,9 +15,7 @@ data to the server at the exact same time via a background process.
  
 Your Task: 
  
-1. API Automation (Hands-on): Write a mock API test script (using Postman, 
-RestAssured, Cypress, or your preferred tool) that simulates hitting a POST /sync-
-survey endpoint with a JSON payload. How would you write tests to ensure the API 
+1. API Automation (Hands-on): Write a mock API test script (using Postman, RestAssured, Cypress, or your preferred tool) that simulates hitting a POST /sync-survey endpoint with a JSON payload. How would you write tests to ensure the API 
 correctly handles duplicate local IDs without overwriting data? Include the script in your 
 repo. 
 
@@ -27,8 +25,26 @@ repo.
 
 
 
-2. Strategy (README.md): Explain how you would test the Android app's background sync 
-behavior under poor network conditions (e.g., network dropping exactly at 99% of a 
-photo upload). What tools (e.g., Charles Proxy, ADB) would you use, and how? 
+2. Strategy (README.md): Explain how you would test the Android app's background sync behavior under poor network conditions (e.g., network dropping exactly at 99% of a photo upload). What tools (e.g., Charles Proxy, ADB) would you use, and how? 
 
-    => 
+    => The app stores data offline using a Room database and uses Android's 'WorkManager' to push that data to the server when the internet is back. 
+    
+    1. To observe what happens when network drop at 99% upload I would use Charles proxy to route Android device through it and throttle the connection down to a slow speed giving me enough time to intercept it.
+
+    - I would set a breakpoint specifically on the POST endpoint (/sync-survey) in Charles.
+
+    - I would let the app try to sync. Once Chales catches the request I will forcefully drop the request inside Charles or turn off the device's Wifi by running ```adb shell svc wifi disable```
+
+    - I will check that Survey's Sync status on the app's dashboard is not marked as Synced. Instead, 'WorkManager' should quietly queue the job retry later and the app should not freeze or crash during the sync process or post process.
+
+    2. To Prevent the DDoS (Test Concurrency & Jitter)
+
+    - When 50,000 field workers reach a town with intenet at 6 PM, their apps will all wake up to sync at the same time. If all of their devices hit our backend at the same time, the API will crash.
+
+    - I will test it by taking 4 to 5 devices (or emulators), put them all in Airplane Mode, and fill out a few offline surveys on each devices.
+
+    - I will turn off Airplane Mode on all devices at the exact same time so they all regain internet simultaneously. 
+
+    - I'd monitor the system logs using ADB ```adb logcat | grep SyncWorker```
+
+    - I want to see the sync requests firing at staggered times (e.g., Device 1 at 3 seconds, Device 2 at 17 seconds, Device 3 at 44 seconds). If every single device tries to sync immediately, it means the developers haven't implemented randomized "Jitter". I would flag this as a major risk to the dev team.

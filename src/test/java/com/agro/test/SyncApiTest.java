@@ -50,24 +50,30 @@ public class SyncApiTest {
     public void testDuplicateLocalIdSync() {
         // 1. Ankit syncs School_1
         String ankitPayload = createSyncPayload("user_ankit", "device_A", "School_1");
+        
         Response ankitRes = RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(ankitPayload)
                 .post("/sync-survey");
         
         Assert.assertEquals(ankitRes.getStatusCode(), 201, "Ankit sync should return 201");
+        
         String ankitGlobalId = ankitRes.jsonPath().getString("globalSurveyId");
+        
         Assert.assertNotNull(ankitGlobalId, "Backend must generate a global ID for Ankit");
 
         // 2. Pooja syncs School_1 (Exact same local ID as Ankit)
         String poojaPayload = createSyncPayload("user_pooja", "device_B", "School_1");
+        
         Response poojaRes = RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(poojaPayload)
                 .post("/sync-survey");
         
         Assert.assertEquals(poojaRes.getStatusCode(), 201, "Pooja sync should return 201");
+        
         String poojaGlobalId = poojaRes.jsonPath().getString("globalSurveyId");
+        
         Assert.assertNotNull(poojaGlobalId, "Backend must generate a global ID for Pooja");
 
         // 3. Validation: The backend must issue distinct global IDs for the same local ID
@@ -77,6 +83,7 @@ public class SyncApiTest {
         Response fetchAnkit = RestAssured.given()
                 .pathParam("id", ankitGlobalId)
                 .get("/surveys/{id}");
+        
         Assert.assertEquals(fetchAnkit.jsonPath().getString("submittedBy"), "user_ankit");
     }
 
@@ -86,8 +93,10 @@ public class SyncApiTest {
         threadPoolSize = 50
     )
     public void testConcurrentSync() {
-        // TestNG will execute this method simultaneously across 50 threads.
+        
+    	// TestNG will execute this method simultaneously across 50 threads.
         String uniqueUserId = "user_" + UUID.randomUUID().toString();
+        
         String payload = createSyncPayload(uniqueUserId, "device_concurrent", "School_1");
 
         Response res = RestAssured.given()
