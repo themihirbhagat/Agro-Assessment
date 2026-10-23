@@ -12,6 +12,9 @@
 		
 		<maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
   
+  		<!-- Selenium dependencies-->
+		<selenium.version>4.51.0</selenium.version>
+  		
   		<!-- Testing Framework dependencies-->
 		<testNG.version>7.9.0</testNG.version>
 		
@@ -43,6 +46,15 @@
   </build>
   
   <dependencies>
+  
+  		<!-- Selenium dependencies-->
+		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+		<dependency>
+		    <groupId>org.seleniumhq.selenium</groupId>
+		    <artifactId>selenium-java</artifactId>
+		    <version>${selenium.version}</version>
+		    <scope>compile</scope>
+		</dependency>
   
   		<!-- Testing Framework dependencies-->
 		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
