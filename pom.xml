@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.agro</groupId>
+  <artifactId>Agro-Assessment</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <properties>
+  
+  		<!-- =============== Java Versions ================ -->
+		<java-source.version>25</java-source.version>
+		<java-target.version>25</java-target.version>
+		
+		<maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+  
+  		<!-- Testing Framework dependencies-->
+		<testNG.version>7.9.0</testNG.version>
+		
+		<!-- Testing of REST services  -->
+		<rest-assured.version>5.5.0</rest-assured.version>
+		
+  </properties>
+  
+  <build>
+  	
+  	<pluginManagement>
+  		
+  		<plugins>
+  				<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+  				<plugin>
+		            <groupId>org.apache.maven.plugins</groupId>
+		            <artifactId>maven-compiler-plugin</artifactId>
+		            <version>${maven-compiler-plugin.version}</version>
+		            <configuration>
+						<source>${java-source.version}</source>
+						<target>${java-target.version}</target>
+						<encoding>UTF-8</encoding>
+						<forceLegacyJavacApi>true</forceLegacyJavacApi>
+		            </configuration>
+		        </plugin>
+  		</plugins>
+  	</pluginManagement>
+  
+  </build>
+  
+  <dependencies>
+  
+  		<!-- Testing Framework dependencies-->
+		<!-- https://mvnrepository.com/artifact/org.testng/testng -->
+		<dependency>
+		    <groupId>org.testng</groupId>
+		    <artifactId>testng</artifactId>
+		    <version>${testNG.version}</version>
+		</dependency>
+  	
+  		<!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
+		<dependency>
+		    <groupId>io.rest-assured</groupId>
+		    <artifactId>rest-assured</artifactId>
+			<version>${rest-assured.version}</version>
+		</dependency>
+  
+  </dependencies>
+</project>
