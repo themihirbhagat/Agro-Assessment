@@ -310,8 +310,6 @@ when necessary but doesn't trap a user in an infinite loop.
 
 ## Part 3: QA Process & AI Integration 
 
-Please answer the following in your README.md. 
- 
 1. Process Creation: You are joining as our first dedicated QA Engineer. Developers currently test their own code and push directly to the Play Store. Walk us through your first 30 days. How do you implement a structured QA process (entry/exit criteria, staging environments) without slowing down the fast-paced development team? 
 
     => 
@@ -330,7 +328,7 @@ Please answer the following in your README.md.
     **Days 21–30: Build the Automation Safety Net**
     - Manual testing will eventually become a bottleneck, so you must start automating the core sanity checks.
     - **Lean Framework:** Build a script-driven automation repository using Appium for mobile UI and Java/TestNG/RestAssured for the backend APIs. Keep it lightweight and strictly code-based without relying on bloated commercial record-and-play tools.
-    - **Automate the "Kitchen Sink":** Write scripts for the most critical paths first, like the massive Kitchen Sink JSON form and the offline background sync.
+    - Write scripts for the most critical paths first, like the massive JSON form and the offline background sync.
     - **CI/CD Integration:** Hook the TestNG/RestAssured scripts into GitHub Actions (or the CI pipeline). This gives developers instant automated feedback on their Pull Requests before you even look at them manually.
 
 
@@ -365,8 +363,6 @@ Please answer the following in your README.md.
 
 
 ## Part 4: UI/UX & User-Centric QA 
-
-Please answer the following in your README.md. 
  
 Context: Our end-users are field workers in rural areas. They often have limited reading skills, use small-screen budget devices in bright sunlight, and rely heavily on visual cues (colors, icons). A feature might pass all functional tests but fail completely in the field because the text is too dense, the contrast is too low, or touch targets are too small. 
  
